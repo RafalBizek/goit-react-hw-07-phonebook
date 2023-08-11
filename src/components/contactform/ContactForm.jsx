@@ -6,49 +6,55 @@ import css from './ContactForm.module.css';
 const ContactForm = ({ addContact }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState(false); // Dodaj stan submitted
   const [nameError, setNameError] = useState('');
   const [numberError, setNumberError] = useState('');
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    setSubmitted(true);
-
-    // Walidacja pola imienia
+  const validateName = () => {
     if (!name.trim()) {
       setNameError('Name is required');
-      return;
     } else if (!/^[A-Za-z.'\- ]+$/.test(name)) {
       setNameError(
         'Name can only contain letters, apostrophe, dash, and spaces'
       );
-      return;
+    } else {
+      setNameError('');
     }
-    setNameError('');
+  };
 
-    // Walidacja pola numeru telefonu
+  const validateNumber = () => {
     if (!number.trim()) {
       setNumberError('Phone number is required');
-      return;
     } else if (
       !/^\+?\d{1,4}?\s?\(?\d{1,4}?\)?\s?\d{1,4}\s?\d{1,4}\s?\d{1,9}$/.test(
         number
       )
     ) {
       setNumberError('Invalid phone number format');
-      return;
+    } else {
+      setNumberError('');
     }
-    setNumberError('');
+  };
 
-    const contact = {
-      id: nanoid(),
-      name,
-      number,
-    };
+  const handleSubmit = e => {
+    e.preventDefault();
+    setSubmitted(true); // Ustaw submitted na true
 
-    addContact(contact);
-    setName('');
-    setNumber('');
+    validateName();
+    validateNumber();
+
+    if (!nameError && !numberError) {
+      const contact = {
+        id: nanoid(),
+        name,
+        number,
+      };
+
+      addContact(contact);
+      setName('');
+      setNumber('');
+      setSubmitted(false); // Zresetuj submitted na false po dodaniu kontaktu
+    }
   };
 
   return (

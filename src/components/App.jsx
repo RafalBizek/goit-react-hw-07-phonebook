@@ -13,7 +13,7 @@ const App = () => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  const [filter, setFilter] = useState(''); // Dodaj stan dla atrybutu filter
+  const [filter, setFilter] = useState('');
 
   const addContactHandler = contact => {
     dispatch(addContact(contact));
@@ -37,16 +37,8 @@ const App = () => {
       <h1>Phonebook</h1>
       <ContactForm addContact={addContactHandler} />
       <h2>Contacts</h2>
-      <Filter filter={filter} onChangeFilter={setFilter} />{' '}
-      {/* Przekaż atrybut filter i funkcję do zmiany */}
-      {contacts.length > 0 ? (
-        <ContactList
-          contacts={contacts}
-          onDeleteContact={deleteContactHandler}
-        />
-      ) : (
-        <p>No contacts found.</p>
-      )}
+      <Filter filter={filter} onChangeFilter={setFilter} />
+      <ContactList contacts={contacts} onDeleteContact={deleteContactHandler} />
     </div>
   );
 };

@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios'; // Dodaj import biblioteki axios
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchContacts',
   async () => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         'https://64d4a4b5b592423e469468dc.mockapi.io/contacts'
       );
-      const contacts = await response.json();
-      return contacts;
+      return response.data; // Użyj response.data, aby uzyskać dane
     } catch (error) {
       throw new Error('Failed to fetch contacts');
     }
