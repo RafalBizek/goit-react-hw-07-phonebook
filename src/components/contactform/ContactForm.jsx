@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import css from './ContactForm.module.css';
 
@@ -36,24 +35,27 @@ const ContactForm = ({ addContact }) => {
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    setSubmitted(true); // Ustaw submitted na true
+    setSubmitted(true);
 
     validateName();
     validateNumber();
 
     if (!nameError && !numberError) {
       const contact = {
-        id: nanoid(),
         name,
         number,
       };
 
-      addContact(contact);
-      setName('');
-      setNumber('');
-      setSubmitted(false); // Zresetuj submitted na false po dodaniu kontaktu
+      try {
+        await addContact(contact); // Użyj konstruktora zasobów do dodania kontaktu
+        setName('');
+        setNumber('');
+        setSubmitted(false);
+      } catch (error) {
+        console.error('Failed to add contact:', error);
+      }
     }
   };
 
