@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react'; // Dodaj useState
 import { useDispatch, useSelector } from 'react-redux';
 import ContactForm from 'components/contactform/ContactForm';
 import ContactList from 'components/contactlist/ContactList';
@@ -12,6 +12,8 @@ const App = () => {
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
+
+  const [filter, setFilter] = useState(''); // Dodaj stan dla atrybutu filter
 
   const addContactHandler = contact => {
     dispatch(addContact(contact));
@@ -34,11 +36,14 @@ const App = () => {
     >
       <h1>Phonebook</h1>
       <ContactForm addContact={addContactHandler} />
-
       <h2>Contacts</h2>
-      <Filter />
+      <Filter filter={filter} onChangeFilter={setFilter} />{' '}
+      {/* Przekaż atrybut filter i funkcję do zmiany */}
       {contacts.length > 0 ? (
-        <ContactList onDeleteContact={deleteContactHandler} />
+        <ContactList
+          contacts={contacts}
+          onDeleteContact={deleteContactHandler}
+        />
       ) : (
         <p>No contacts found.</p>
       )}
