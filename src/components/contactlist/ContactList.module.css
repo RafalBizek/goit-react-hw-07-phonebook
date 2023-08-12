@@ -1,4 +1,22 @@
-.btn {
-  width: 70px;
-  cursor: pointer;
+.contactListContainer {
+  margin: 20px;
+}
+
+.contactList {
+  list-style: none;
+  padding: 0;
+}
+
+.contactList li {
+  /* border: 1px solid #ccc; */
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 270px;
+}
+
+.contactList li input[type='checkbox'] {
+  margin-right: 10px;
 }
